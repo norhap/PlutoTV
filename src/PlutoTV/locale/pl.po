@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PlutoTV\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-22 14:30+0200\n"
+"POT-Creation-Date: 2026-01-25 13:18+0100\n"
 "PO-Revision-Date: 2024-08-30 12:32+0200\n"
 "Last-Translator: \n"
 "Language-Team: endriu\n"
@@ -91,6 +91,9 @@ msgstr ""
 msgid "Add/Delete a Pluto TV bouquet"
 msgstr "Aktualizuj bukiet PlutoTV"
 
+msgid "Adult themes"
+msgstr ""
+
 msgid "Back"
 msgstr ""
 
@@ -130,6 +133,9 @@ msgstr "PlutoTV"
 msgid "Close PlutoTV and close all menus"
 msgstr ""
 
+msgid "Coarse language"
+msgstr ""
+
 msgid "Confirm close"
 msgstr ""
 
@@ -159,7 +165,16 @@ msgstr "Czy chcesz wznowić to odtwarzanie?"
 msgid "Downloading '%s' picon."
 msgstr ""
 
+msgid "Drug use"
+msgstr ""
+
 msgid "Duration"
+msgstr ""
+
+msgid "Educational"
+msgstr ""
+
+msgid "Educational/Informational"
 msgstr ""
 
 msgid "Enter the directory where the Pluto TV picons will be saved. This should be the same location where other picons are located."
@@ -180,6 +195,9 @@ msgstr ""
 msgid "Error: No VOD categories available!"
 msgstr "Brak Ulubionych"
 
+msgid "Fantasy violence"
+msgstr ""
+
 #, python-format
 msgid "Fetching %s carousel data."
 msgstr ""
@@ -196,7 +214,16 @@ msgstr ""
 msgid "Go back to the previous menu"
 msgstr ""
 
+msgid "Horror/supernatural themes"
+msgstr ""
+
 msgid "IMDb"
+msgstr ""
+
+msgid "Informational"
+msgstr ""
+
+msgid "Language"
 msgstr ""
 
 msgid "Live TV channel numbering"
@@ -239,6 +266,12 @@ msgstr "Nazwa"
 
 msgid "None"
 msgstr "Nigdy"
+
+msgid "Nudity"
+msgstr ""
+
+msgid "Omit promotions from EPG"
+msgstr ""
 
 msgid "Open the Pluto TV settings screen"
 msgstr ""
@@ -349,9 +382,6 @@ msgid_plural "Seasons available"
 msgstr[0] "Dostępne sezony"
 msgstr[1] "Dostępne sezony"
 
-msgid "Season, episode"
-msgstr "Seria, Odcinek"
-
 msgid "Select 'Yes' to add #DESCRIPTION lines to all bouquets created by Pluto TV."
 msgstr ""
 
@@ -385,6 +415,9 @@ msgid "Select 'Yes' to display the initial data loading information."
 msgstr ""
 
 msgid "Select 'Yes' to force picons to be downloaded from Pluto TV even if they are already locally available."
+msgstr ""
+
+msgid "Select 'Yes' to omit/strip station and show promotional content from the EPG. (New events won't be added. Existing events will be left until they expire.)"
 msgstr ""
 
 msgid "Select a VOD region"
@@ -423,6 +456,12 @@ msgstr ""
 msgid "Separate other details"
 msgstr ""
 
+msgid "Sex scenes"
+msgstr ""
+
+msgid "Sexual content"
+msgstr ""
+
 #, fuzzy
 msgid "Start Pluto TV bouquet, picons & EPG update."
 msgstr "Pobierz Bukiet PlutoTV, pikony i EPG"
@@ -434,6 +473,9 @@ msgstr "Uruchom PlutoTV w trybie cichym"
 #, fuzzy
 msgid "Stop playing this movie?"
 msgstr "Zatrzymać odtwarzanie i wróć do listy filmów?"
+
+msgid "Suggestive dialog"
+msgstr ""
 
 msgid "TEXT"
 msgstr ""
@@ -467,6 +509,9 @@ msgstr ""
 #, fuzzy
 msgid "Video region"
 msgstr "Region Video"
+
+msgid "Violence"
+msgstr ""
 
 msgid "Writer"
 msgid_plural "Writers"

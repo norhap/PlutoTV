@@ -36,6 +36,14 @@ Rewrite Pluto TV plugin
 - Add an option to use LEFT/RIGHT buttons for navigation.
 - Probably more that no longer stands out after all the development time.  ;)
 
+Copyright (c) 2026 jbleyel and IanSav - Version 3.0.2
+- Make Components/International.py no longer optional.
+- Add the "Omit promotions from EPG" option.
+- Allow picon directories to be any mounted devices to be selected for picon storage.
+- Add data and code to allow the EPG to be more comprehensively populated with Pluto TV data.
+- Add debug code to allow for the discovery of new Pluto TV types, genres and ratings.
+- Correct the Samsung Live TV mode option URLs.
+
 SPDX-License-Identifier: GPL-2.0-or-later
 See LICENSES/README.md for more information.
 
@@ -71,10 +79,8 @@ from enigma import eDVBDB, eEPGCache, ePicLoad, eServiceCenter, eServiceReferenc
 from skin import parseColor
 from Components.ActionMap import HelpableActionMap
 from Components.config import ConfigDirectory, ConfigNumber, ConfigSelection, ConfigSubList, ConfigSubsection, ConfigYesNo, config, getConfigListEntry  # noqa: F401
-try:
-	from Components.International import international
-except ImportError:
-	international = None
+from Components.Harddisk import harddiskmanager
+from Components.International import international
 from Components.Label import Label
 from Components.Pixmap import Pixmap
 from Components.ProgressBar import ProgressBar
@@ -143,6 +149,7 @@ config.plugins.PlutoTV.updateTimer = ConfigSelection(default=5, choices=[
 config.plugins.PlutoTV.silentMode = ConfigYesNo(default=True)
 config.plugins.PlutoTV.addXiaomi = ConfigYesNo(default=False)
 config.plugins.PlutoTV.addSamsung = ConfigYesNo(default=True)
+config.plugins.PlutoTV.omitPromotions = ConfigYesNo(default=False)
 config.plugins.PlutoTV.channelNumbering = ConfigSelection(default="original", choices=[
 	("original", _("Original")),
 	("plugin", _("Plugin generated"))
@@ -157,7 +164,7 @@ choices = []
 if domData is not None:
 	for region in domData.findall("region"):
 		country = region.get("country")
-		name = international.getCountryTranslated(country) if international else region.get("country")
+		name = international.getCountryTranslated(country)
 		ip = region.get("ip")
 		tids = region.get("tids")
 		if country and name and ip and tids:
@@ -182,7 +189,12 @@ config.plugins.PlutoTV.piconMode = ConfigSelection(default="srp", choices=[
 	("snp", _("SNP"))
 ])
 # config.plugins.PlutoTV.piconPath = ConfigDirectory(default="/usr/share/enigma2/picon")
-config.plugins.PlutoTV.piconPath = ConfigSelection(default="/usr/share/enigma2/picon", choices=["/usr/share/enigma2/picon", "/picon"])
+choices = ["/usr/share/enigma2/picon"]
+for partition in harddiskmanager.getMountedPartitions():
+	piconPath = join(partition.mountpoint, "picon")
+	if isdir(piconPath):
+		choices.append(piconPath)
+config.plugins.PlutoTV.piconPath = ConfigSelection(default="/usr/share/enigma2/picon", choices=sorted(choices))
 piconPath = config.plugins.PlutoTV.piconPath.value
 if not isdir(piconPath):
 	makedirs(piconPath)
@@ -1307,6 +1319,256 @@ class PlutoUpdater:
 
 	TV_SERVICE_TYPES = ("1:7:1:0:0:0:0:0:0:0:(type == 1) || (type == 17) || (type == 22) || (type == 25) || (type == 134) || (type == 195)")
 
+	PLUTO_RATINGS = {
+		"AU": {
+			"Not Rated": 0,
+			"no rating": 0,
+			# TV Ratings.
+			"P": 2,
+			"C": 4,
+			"G": 6,
+			"PG": 8,
+			"M": 10,
+			"MA": 12,
+			"MA15+": 13,
+			"AV": 14,
+			"AV15+": 14,
+			"R": 15,
+			# Movie Ratings.
+			"R18+": 15
+		},
+		"US": {
+			"Not Rated": 0,
+			"no rating": 0,
+			# TV Ratings.
+			"TV-Y": 4,  # Appropriate for all children.
+			"TV-Y7": 5,  # For ages 7 and up.
+			"TV-G": 6,  # Suitable for all ages.
+			"TV-PG": 8,
+			"TV-14": 10,  # Some material may be inappropriate for children under 14.
+			"TV-MA": 13,
+			# Movie ratings.
+			"G": 6,
+			"PG": 8,
+			"PG-13": 9,
+			"R": 15,
+			"NC-17": 15
+		}
+	}
+	PLUTO_DESCRIPTORS = {
+		"AU": {
+			"A": _("Adult themes"),
+			"V": _("Violence"),
+			"L": _("Language"),
+			"D": _("Drug use"),
+			"N": _("Nudity"),
+			"S": _("Sex scenes"),
+			"H": _("Horror/supernatural themes")
+		},
+		"US": {
+			"D": _("Suggestive dialog"),
+			"L": _("Coarse language"),
+			"S": _("Sexual content"),
+			"V": _("Violence"),
+			"FV": _("Fantasy violence"),  # Used exclusively with TV-Y7.
+			"E": _("Educational"),
+			"I": _("Informational"),
+			"E/I": _("Educational/Informational"),
+			# "smoking": _("Smoking"),
+			# "nudity": _("Nudity")
+		}
+	}
+	PLUTO_GENRES = {
+		"Action & Adventure": 0x10,
+		"Anime": 0x10,
+		"Children & Family": 0x50,
+		"Classics": 0x10,
+		"Comedy": 0x10,
+		"Crime": 0x10,
+		"Documentary": 0x90,
+		"Drama": 0x10,
+		"Entertainment": 0x10,
+		"Faith & Spirituality": 0x80,
+		"Food & Cooking": 0xA0,
+		"Game Show": 0x30,
+		"Home & Lifestyle": 0xA0,
+		"Horror": 0x10,
+		"Instructional & Educational": 0x90,
+		"Music": 0x60,
+		"Musical": 0x60,
+		"News & Information": 0x20,
+		"Paranormal": 0x10,
+		"Reality": 0x90,
+		"Romance": 0x10,
+		"Sci-Fi & Fantasy": 0x10,
+		"Sports": 0x40,
+		"Talk Show": 0x80,
+		"Telenovela": 0x00,
+		"Thriller": 0x10,
+		"Variety Show": 0x30,
+		"War": 0x10,
+		"Western": 0x10,
+		"Young Adult": 0x50,
+		"no info available": 0x00
+	}
+	PLUTO_SUB_GENRES = {
+		"Action Classics": 0x12,
+		"Action Comedies": 0x14,
+		"Action Sci-Fi & Fantasy": 0x13,
+		"Action Thrillers": 0x11,
+		"Adventures": 0x12,
+		"African-American Action": 0x12,
+		"African-American Comedies": 0x14,
+		"African-American Romance": 0x16,
+		"Ages 0-2": 0x51,
+		"Ages 11-12": 0x53,
+		"Ages 2-4": 0x51,
+		"Ages 5-7": 0x52,
+		"Ages 8-10": 0x52,
+		"Alien Sci-Fi": 0x13,
+		"Alternative": 0x61,
+		"Animal Tales": 0x50,
+		"Anime Action & Adventure": 0x12,
+		"Anime Comedy": 0x14,
+		"Anime Drama": 0x10,
+		"Anime Fantasy": 0x13,
+		"Anime Feature Films": 0x10,
+		"Anime Horror": 0x13,
+		"Anime Sci-Fi": 0x13,
+		"Anime Series": 0x10,
+		"Arts": 0x70,
+		"Asian Horror": 0x13,
+		"B-Movie Horror": 0x13,
+		"Best of British Humor": 0x14,
+		"Biographical Drama": 0x17,
+		"Blockbusters": 0x10,
+		"Blues": 0x64,
+		"Cartoons": 0x55,
+		"Celebrity Reality": 0x30,
+		"Christian & Gospel": 0x73,
+		"Classic Comedies": 0x14,
+		"Classic Sci-Fi & Fantasy": 0x13,
+		"Classical": 0x62,
+		"Comic Books and Superheroes": 0x12,
+		"Coming of Age": 0x10,
+		"Competition Reality": 0x31,
+		"Cooking Instruction": 0xA5,
+		"Country": 0x63,
+		"Courtroom Drama": 0x10,
+		"Courtroom Reality": 0x30,
+		"Creature Features": 0x13,
+		"Crime Action": 0x11,
+		"Crime Drama": 0x11,
+		"Crime": 0x11,
+		"Cult Comedies": 0x14,
+		"Cult Horror": 0x13,
+		"DIY & How To": 0xA2,
+		"Dance & Party": 0x60,
+		"Dark Humor & Black Comedies": 0x14,
+		"Dating Show": 0x30,
+		"Deadly Disasters": 0x10,
+		"Documentary": 0x23,
+		"Dramedy": 0x10,
+		"Education & Guidance": 0x96,
+		"Entertainment": 0x30,
+		"Espionage Action": 0x11,
+		"Fails & Pranks": 0x32,
+		"Faith & Spirituality": 0x73,
+		"Family Adventures": 0x50,
+		"Family Animation": 0x50,
+		"Family Classics": 0x50,
+		"Family Comedies": 0x50,
+		"Family Drama": 0x50,
+		"Family Dramas": 0x50,
+		"Family Sci-Fi & Fantasy": 0x50,
+		"Family Viewing": 0x50,
+		"Fantasy": 0x13,
+		"Food & Cooking": 0xA5,
+		"Foreign Action & Adventure": 0x12,
+		"Foreign Comedies": 0x14,
+		"Foreign Drama": 0x10,
+		"Foreign Horror": 0x13,
+		"Foreign Romance": 0x16,
+		"Foreign Sci-Fi & Fantasy": 0x13,
+		"Game Show": 0x31,
+		"Hip-Hop/Rap": 0x61,
+		"Historical Drama": 0x17,
+		"History & Social Studies": 0x95,
+		"Holiday": 0x10,
+		"Home & Lifestyle": 0xA0,
+		"Home Improvement": 0xA2,
+		"Horror Classics": 0x13,
+		"Human Interest": 0x83,
+		"Independent Drama": 0x10,
+		"Indie Romance": 0x16,
+		"Inspirational Drama": 0x17,
+		"Kids' Anime": 0x50,
+		"Kids' Music": 0x50,
+		"Kids' TV": 0x50,
+		"Late Night Comedies": 0x14,
+		"Late Night TV": 0x30,
+		"Latino Comedies": 0x14,
+		"Latino": 0x10,
+		"Martial Arts": 0x4B,
+		"Medical Reality": 0x93,
+		"Military & War Action": 0x12,
+		"Mockumentaries": 0x14,
+		"Monsters": 0x13,
+		"Musical": 0x65,
+		"News & Information": 0x20,
+		"Occupational Reality": 0x30,
+		"Paranormal": 0x13,
+		"Political Comedies": 0x14,
+		"Pop": 0x61,
+		"R&B/Soul": 0x61,
+		"Reality Drama": 0x30,
+		"Rock": 0x61,
+		"Romance Classics": 0x16,
+		"Romantic Comedies": 0x16,
+		"Romantic Drama": 0x16,
+		"Romantic Dramas": 0x16,
+		"Satanic Stories": 0x13,
+		"Sci-Fi Adventure": 0x13,
+		"Sci-Fi Cult Classics": 0x13,
+		"Sci-Fi Dramas": 0x13,
+		"Sci-Fi Horror": 0x13,
+		"Sci-Fi Thrillers": 0x13,
+		"Science": 0x92,
+		"Screwball": 0x14,
+		"Showbiz Comedies": 0x14,
+		"Singer/Songwriter": 0x63,
+		"Sketch Comedies": 0x14,
+		"Slapstick": 0x14,
+		"Slashers and Serial Killers": 0x13,
+		"Spoofs and Satire": 0x14,
+		"Sports Comedies": 0x40,
+		"Sports": 0x40,
+		"Stand-Up": 0x32,
+		"Steamy Romance": 0x18,
+		"Super Swashbucklers": 0x12,
+		"Supernatural Horror": 0x13,
+		"Supernatural Sci-Fi": 0x13,
+		"Talk Show": 0x33,
+		"Teen Comedies": 0x53,
+		"Teen Dramas": 0x53,
+		"Teen Romance": 0x53,
+		"Teen Screams": 0x13,
+		"Telenovela": 0x15,
+		"Thriller": 0x11,
+		"True Crime": 0x11,
+		"Vampires": 0x13,
+		"Variety Show": 0x32,
+		"War Drama": 0x12,
+		"War": 0x12,
+		"Werewolves": 0x13,
+		"Western": 0x12,
+		"Westerns": 0x12,
+		"World": 0x63,
+		"Young Adult": 0x53,
+		"Zombies": 0x13,
+		"no info available": 0x00
+	}
+
 	def __init__(self, verbose):
 		self.verbose = verbose
 		self.bouquetRegionList = []
@@ -1349,6 +1611,28 @@ class PlutoUpdater:
 			# print(f"[PlutoTV] ALERT: Identifier '{identifier}, name '{name}' number '{number}'.")
 			return number
 
+		def decodeRating(region, rating):
+			if region in ("AU", "US"):
+				rating = self.PLUTO_RATINGS[region].get(rating.replace(" ", ""), 0)
+			else:
+				rating = "".join([x for x in rating if x.isdigit()])
+				if rating:
+					rating = int(rating)
+					if rating > 2:
+						rating -= 3
+				else:
+					rating = 0
+			return rating
+
+		def decodeRatingDescriptors(ratingDescriptors):
+			descriptors = []
+			for region, descriptor in [(x[0:2].upper(), x[3:].capitalize()) for x in ratingDescriptors]:
+				descriptors.append(self.PLUTO_DESCRIPTORS[region][descriptor] if region in self.PLUTO_DESCRIPTORS and descriptor in self.PLUTO_DESCRIPTORS[region] else descriptor)
+			return ", ".join(descriptors)
+
+		def debugCheck(item, table, reference):
+			pass
+
 		if self.updateActive:
 			print("[PlutoTV] Carousel update is already in progress.")
 			return self.EXIT_RUNNING
@@ -1361,6 +1645,16 @@ class PlutoUpdater:
 		categories = []
 		channelList = {}
 		guideList = {}
+		# DEBUG Start!
+		seriesTypesList = ("film", "live", "music-video", "no info available", "tv", "web-original")
+		seriesTypes = set()
+		mainGenresList = list(self.PLUTO_GENRES.keys())
+		mainGenres = set()
+		subGenresList = list(self.PLUTO_SUB_GENRES.keys())
+		subGenres = set()
+		ratings = set()
+		# epgList = []
+		# DEBUG End!
 		addSamsung = config.plugins.PlutoTV.addSamsung.value
 		if not addSamsung:
 			print("[PlutoTV] Samsung categories will not being added.")
@@ -1469,19 +1763,11 @@ class PlutoUpdater:
 								f"https://stitcher-ipv4.pluto.tv/v1/stitch/embed/hls/channel/{identifier}/master.m3u8?deviceType=samsung-tvplus",
 								"deviceMake=samsung",
 								"deviceModel=samsung",
-								"deviceVersion=unknown",
-								"appVersion=unknown",
-								"deviceLat=0",
-								"deviceLon=0",
-								"deviceDNT=%7BTARGETOPT%7D",
-								"deviceId=%7BPSID%7D",
-								"advertisingId=%7BPSID%7D",
-								"us_privacy=1YNY",
-								"samsung_app_domain=%7BAPP_DOMAIN%7D",
-								"samsung_app_name=%7BAPP_NAME%7D",
-								"profileLimit=",
-								"profileFloor=",
-								"embedPartner=samsung-tvplus"
+								"deviceVersion=DNT",
+								"appVersion=DNT",
+								"deviceDNT=0",
+								"deviceId=1",
+								"sid=01"
 							))
 					if category not in channelList.keys():
 						categories.append(category)
@@ -1622,10 +1908,8 @@ class PlutoUpdater:
 						identifier = guide.get("_id")
 						name = guide.get("name", _("* Unknown *"))
 						self.uiUpdate(progress=counter * 50 // guidesCount + 50, status=_("Processing '%s' guides.") % name, pause=0.1)
-						genres = set()
 						guideList[identifier] = []
 						timelines = guide.get("timelines", [])
-						# print(f"[PlutoTV] DEBUG: timelines={len(timelines)}.")
 						for timeline in timelines:
 							# identifier = timeline.get("_id", "")
 							# start = timeline.get("start", "")
@@ -1653,7 +1937,7 @@ class PlutoUpdater:
 							# liveBroadcast = episode.get("liveBroadcast", False)
 							# featuredImage = episode.get("featuredImage", {})  # Typically key "path" as a URL to a background or promotional image.
 							# series = episode.get("series", {})
-							# ratingDescriptors = episode.get("ratingDescriptors", "")
+							# ratingDescriptors = episode.get("ratingDescriptors", [])
 							# poster16_9 = episode.get("poster16_9", {})  # Typically key "path" as a URL to a background or promotional image.
 							# cc = episode.get("cc", False)
 							#
@@ -1672,43 +1956,82 @@ class PlutoUpdater:
 								break
 							episode = timeline.get("episode", {}) or timeline
 							series = episode.get("series", {}) or timeline
-							duration = int(episode.get("duration", "0") or "0") // 1000  # In seconds.
+							seriesType = series.get("type")
+							if config.plugins.PlutoTV.omitPromotions.value and seriesType == "web-original":
+								continue
 							start = timegm(strptime(timeline["start"], "%Y-%m-%dT%H:%M:%S.%fZ"))
-							title = series.get("name", "") or episode.get("name", "") or timeline.get("title", "")
-							tvPlot = series.get("description", "") or series.get("summary", "") or guide.get("description", "") or guide.get("summary", "")
-							episodeSeason = episode.get("season", 0)
-							episodeNumber = episode.get("number", 0)
-							episodeType = series.get("type", "n/a")
-							episodeName = episode["name"]
-							episodeRating = episode.get("rating", "")
-							episodeGenre = episode.get("subGenre", "")
-							episodePlot = episode.get("description", "") or tvPlot or episodeName
-							if len(episodeRating) > 0 and "Not Rated" not in episodeRating:
-								episodePlot = f"{episodePlot}\n{_("Rating")}: {f"FSK-{episodeRating}" if episodeRating.isdigit() else episodeRating}"
-							if episodeType == "tv" and (episodeSeason > 0 and episodeNumber >= 0):
-								episodePlot = f"{episodeName}\n{episodeSeason}. {_("Season, episode")} {episodeNumber}: {episodePlot}"
-							elif episodeType == "film" and episodeGenre not in ("None", ""):
-								episodePlot = f"{episodeGenre}\n{episodePlot}"
+							duration = int(episode.get("duration", "0") or "0") // 1000  # In seconds.
+							title = series.get("displayName") or series.get("name", "")
+							short = episode.get("name", "")
+							if short == title:
+								short = ""
+							if short and seriesType in ("live", "tv"):
+								episodeSeason = episode.get("season", 0)
+								episodeNumber = episode.get("number", 0)
+								seasonText = ngettext("Season", "Seasons", 1)
+								short = f"{short}  ({seasonText} {episodeSeason}, {_("Episode")} {episodeNumber})"
+							extended = episode.get("description") or series.get("description", "")
+							rating = episode.get("rating", "")
+							ratingDescriptors = episode.get("ratingDescriptors")
+							descriptors = f" - ({decodeRatingDescriptors(ratingDescriptors)})" if ratingDescriptors else ""
 							genre = episode.get("genre", "")
-							if any((genre in ("Classics", "Romance", "Thrillers", "Horror"), "Sci-Fi" in genre, "Action" in genre)):
-								genre = 0x10
-							elif "News" in genre or "Educational" in genre:
-								genre = 0x20
-							elif genre == "Comedy":
-								genre = 0x30
-							elif "Children" in genre:
-								genre = 0x50
-							elif genre == "Music":
-								genre = 0x60
-							elif genre == "Documentaries":
-								genre = 0xA0
-							else:
-								genre = 0
-							if genre not in genres:
-								genres.add(genre)
-								guideList[identifier].append([])
+							subGenre = episode.get("subGenre", "")
+							extended = f"{extended}\n\n{_("Rating")}: {rating}{descriptors}\n{_("Genre")}: {genre} - {subGenre}"
+							eventType = self.PLUTO_SUB_GENRES.get(subGenre, 0x00)
+							localRegion = international.getCountryAlpha3()
+							plutoRegion = international.getCountryAlpha3(region)
+							ratingCode = decodeRating(region, rating)
+							ratingList = [(plutoRegion, ratingCode)]
+							if localRegion != plutoRegion:
+								ratingList.insert(0, (localRegion, ratingCode))
 							# StartTime [long], Duration [int], EventTitle, ShortDescription, ExtendedDescription, EventType [byte], EventID [int], ParentalRatings [list of tuples (Country [3 letter string], ParentalRating [byte])]
-							guideList[identifier][-1].append((start, duration, title, "", episodePlot, genre))
+							guideList[identifier].append((start, duration, title, short, extended, eventType, 0, ratingList))
+							# DEBUG Start!
+							if seriesType not in seriesTypesList:
+								seriesTypes.add(seriesType)
+							if genre not in mainGenresList:
+								mainGenres.add(genre)
+							if subGenre not in subGenresList:
+								subGenres.add(subGenre)
+							if region in self.PLUTO_RATINGS and self.PLUTO_RATINGS[region].get(rating) is None:
+								ratings.add((region, rating))
+							"""
+							epgList.append(f"Identifier Guide/Timeline: {identifier} - {timeline.get("_id", "")}")
+							epgList.append(f"\tRegion: {region}")
+							timelineTitle = timeline.get("title", "")
+							if timelineTitle:
+								epgList.append(f"\tTimeline title: {timelineTitle}")
+							episodeName = episode.get("name", "")
+							if episodeName:
+								epgList.append(f"\tEpisode name:   {episodeName}")
+							seriesName = series.get("name", "")
+							if seriesName:
+								epgList.append(f"\tSeries name:    {seriesName}")
+							displayName = series.get("displayName", "")
+							if displayName:
+								epgList.append(f"\tDisplay name:   {displayName}")
+							episodeDescription = episode.get("description", "")
+							if episodeDescription:
+								epgList.append(f"\tEpisode description: {episodeDescription}")
+							seriesDescription = series.get("description", "")
+							if seriesDescription:
+								epgList.append(f"\tSeries description:  {seriesDescription}")
+							seriesSummary = series.get("summary", "")
+							if seriesSummary:
+								epgList.append(f"\tSeries summary:      {seriesSummary}")
+							epgList.append(f"\tShow type: {seriesType}")
+							epgList.append(f"\tSeason number:  {episode.get("season", 0)}")
+							epgList.append(f"\tEpisode number: {episode.get("number", 0)}")
+							epgList.append(f"\tEpisode rating: {rating} (0x{ratingCode:02X})")
+							epgList.append(f"\tParental ratings: {ratingList}")
+							if ratingDescriptors:
+								epgList.append(f"\tDescriptors: {decodeRatingDescriptors(ratingDescriptors)} ({ratingDescriptors})")
+							closedCaptions = episode.get("cc", False)
+							if closedCaptions:
+								epgList.append(f"\t{_("Closed captions available")}")
+							epgList.append("")
+							"""
+							# DEBUG End!
 					self.uiUpdate(progress=99)
 					if self.abort:
 						break
@@ -1738,7 +2061,7 @@ class PlutoUpdater:
 					for identifier, serviceReference in serviceReferences.items():
 						for epgData in guideList.get(identifier, []):
 							eventCount += len(epgData)
-							epgCache.importEvents(serviceReference, epgData)
+							epgCache.importEvents(serviceReference, [epgData])
 					print(f"[PlutoTV] {eventCount} events merged, for {channelCount} channels.")
 					self.uiUpdate(progress=100)
 				else:
@@ -1764,6 +2087,23 @@ class PlutoUpdater:
 		if not self.verbose:
 			self.start()  # This is a background update, reset the timer for the next run.
 		self.updateActive = False
+		# DEBUG Start!
+		debugLog = []
+		if seriesTypes:
+			debugLog.append(f"Show types={seriesTypes}")
+		if mainGenres:
+			debugLog.append(f"Main genres={mainGenres}")
+		if subGenres:
+			debugLog.append(f"Sub genres={subGenres}")
+		if ratings:
+			debugLog.append(f"Ratings={ratings}")
+		if ratingDescriptors:
+			debugLog.append(f"Rating descriptors={ratingDescriptors}")
+		if debugLog:
+			debugLog.insert(0, "Pluto TV Debug Log - Missing Definitions")
+			fileWriteLines(f"/tmp/plutotv_missing.txt", debugLog, source=MODULE_NAME)
+		# fileWriteLines(f"/tmp/epgdump.txt", epgList, source=MODULE_NAME)
+		# DEBUG End!
 		print("[PlutoTV] Carousel update finished.")
 		if self.abort:
 			result = self.EXIT_ABORT

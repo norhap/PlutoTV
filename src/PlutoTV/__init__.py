@@ -6,7 +6,7 @@ from Tools.Directories import SCOPE_PLUGINS, resolveFilename
 PluginLanguageDomain = "PlutoTV"
 PluginLanguagePath = "Extensions/PlutoTV/locale"
 
-__version__ = "3.0.1"
+__version__ = "3.0.2"
 
 
 def localeInit():
@@ -17,7 +17,7 @@ def _(text):
 	if translated := dgettext(PluginLanguageDomain, text):
 		return translated
 	else:
-		# print(f"[{PluginLanguageDomain}] fallback to default translation for {text}")
+		# print(f"[{PluginLanguageDomain}] Fallback to default translation for '{text}'.")
 		return gettext(text)
 
 

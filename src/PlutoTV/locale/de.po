@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PlutoTV\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-22 14:30+0200\n"
-"PO-Revision-Date: 2025-10-22 15:18+0200\n"
+"POT-Creation-Date: 2026-01-25 13:18+0100\n"
+"PO-Revision-Date: 2026-01-25 13:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: morser\n"
 "Language: de_DE\n"
@@ -81,6 +81,9 @@ msgstr "Update zum Erweiterungsmenü hinzufügen"
 msgid "Add/Delete a Pluto TV bouquet"
 msgstr "Pluto TV-Bouquet hinzufügen/löschen"
 
+msgid "Adult themes"
+msgstr "Erwachsenen"
+
 msgid "Back"
 msgstr "Zurück"
 
@@ -117,6 +120,9 @@ msgstr "Pluto TV Schliessen"
 msgid "Close PlutoTV and close all menus"
 msgstr "Pluto TV schließen und alle Menüs verlassen"
 
+msgid "Coarse language"
+msgstr "Derbe Sprache"
+
 msgid "Confirm close"
 msgstr "Schließen bestätigen"
 
@@ -141,8 +147,17 @@ msgstr "Soll diese Wiedergabe fortgesetzt werden?"
 msgid "Downloading '%s' picon."
 msgstr "Lade Picon '%s' herunter."
 
+msgid "Drug use"
+msgstr "Drogen"
+
 msgid "Duration"
 msgstr "Dauer"
+
+msgid "Educational"
+msgstr "Bildung"
+
+msgid "Educational/Informational"
+msgstr "Bildung/Informativ"
 
 msgid "Enter the directory where the Pluto TV picons will be saved. This should be the same location where other picons are located."
 msgstr "Geben Sie das Verzeichnis an, in dem die Pluto TV-Picons gespeichert werden sollen. Es sollte das gleiche Verzeichnis sein wo die anderen Picons liegen."
@@ -160,6 +175,9 @@ msgstr "Fehler: Generierte Kanalnummer zu groß! (%s)"
 msgid "Error: No VOD categories available!"
 msgstr "Fehler: Keine Kategorien verfügbar!"
 
+msgid "Fantasy violence"
+msgstr "Fantasiegewalt"
+
 #, python-format
 msgid "Fetching %s carousel data."
 msgstr "Lade Karusselldaten von %s."
@@ -176,8 +194,17 @@ msgstr "Genre"
 msgid "Go back to the previous menu"
 msgstr "Zum vorherigen Menü zurückkehren"
 
+msgid "Horror/supernatural themes"
+msgstr "Horror/Übernatürlich"
+
 msgid "IMDb"
 msgstr "IMDb"
+
+msgid "Informational"
+msgstr "Informativ"
+
+msgid "Language"
+msgstr "Sprachen"
 
 msgid "Live TV channel numbering"
 msgstr "Live TV Kanal-Nummerierung"
@@ -217,6 +244,12 @@ msgstr "Name"
 
 msgid "None"
 msgstr "Nichts"
+
+msgid "Nudity"
+msgstr "Nacktheit"
+
+msgid "Omit promotions from EPG"
+msgstr "Werbung aus dem EPG auslassen"
 
 msgid "Open the Pluto TV settings screen"
 msgstr "Pluto TV-Einstellungsmenü öffnen"
@@ -316,9 +349,6 @@ msgid_plural "Seasons available"
 msgstr[0] "Staffel verfügbar"
 msgstr[1] "Staffels verfügbar"
 
-msgid "Season, episode"
-msgstr "Staffel, Folge"
-
 msgid "Select 'Yes' to add #DESCRIPTION lines to all bouquets created by Pluto TV."
 msgstr "Wähle 'Ja', um #DESCRIPTION-Zeilen zu allen von Pluto TV erstellten Bouquets hinzuzufügen."
 
@@ -351,6 +381,9 @@ msgstr "Wähle 'Ja', um Informationen zum anfänglichen Laden der Daten anzuzeig
 
 msgid "Select 'Yes' to force picons to be downloaded from Pluto TV even if they are already locally available."
 msgstr "Wähle 'Ja', um Picons von Pluto TV erneut herunterzuladen, auch wenn sie lokal bereits vorhanden sind."
+
+msgid "Select 'Yes' to omit/strip station and show promotional content from the EPG. (New events won't be added. Existing events will be left until they expire.)"
+msgstr "Wähle 'Ja' wählen, um den Sender auszulassen/zu entfernen und Werbeinhalte aus dem EPG anzuzeigen. (Neue Ereignisse werden nicht hinzugefügt. Bestehende Ereignisse bleiben bis zu ihrem Ablauf bestehen.)"
 
 msgid "Select a VOD region"
 msgstr "Wähle VOD Region"
@@ -388,6 +421,12 @@ msgstr "Episodendetails trennen"
 msgid "Separate other details"
 msgstr "Andere Details trennen"
 
+msgid "Sex scenes"
+msgstr "Sexszenen"
+
+msgid "Sexual content"
+msgstr "Sexuelle Inhalte"
+
 msgid "Start Pluto TV bouquet, picons & EPG update."
 msgstr "Starte Pluto TV Bouquet, Picons & EPG update."
 
@@ -396,6 +435,9 @@ msgstr "Pluto TV im Silent-Modus starten"
 
 msgid "Stop playing this movie?"
 msgstr "Wiedergabe stoppen?"
+
+msgid "Suggestive dialog"
+msgstr "Suggestiver Dialog"
 
 msgid "TEXT"
 msgstr "TEXT"
@@ -426,6 +468,9 @@ msgstr "VOD-Kategorienmenü"
 
 msgid "Video region"
 msgstr "Video-Region"
+
+msgid "Violence"
+msgstr "Gewalt"
 
 msgid "Writer"
 msgid_plural "Writers"
