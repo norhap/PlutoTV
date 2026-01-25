@@ -2101,7 +2101,7 @@ class PlutoUpdater:
 			debugLog.append(f"Rating descriptors={ratingDescriptors}")
 		if debugLog:
 			debugLog.insert(0, "Pluto TV Debug Log - Missing Definitions")
-			fileWriteLines(f"/tmp/plutotv_missing.txt", debugLog, source=MODULE_NAME)
+			fileWriteLines("/tmp/plutotv_missing.txt", debugLog, source=MODULE_NAME)
 		# fileWriteLines(f"/tmp/epgdump.txt", epgList, source=MODULE_NAME)
 		# DEBUG End!
 		print("[PlutoTV] Carousel update finished.")
