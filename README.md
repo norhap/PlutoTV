@@ -13,6 +13,18 @@ This plugin was developed with a lot of 💞 for the Enigma2 community. You are 
 <summary>Click to show Relases Notes.</summary> 
 
 # Relases Notes:
+**V3.0.2 - 26.01.2026**
+**Small correction and improvements**
+- Make Components/International.py no longer optional.
+- Add the "Omit promotions from EPG" option.
+- Allow picon directories to be any mounted devices to be selected for picon storage.
+- Add data and code to allow the EPG to be more comprehensively populated with Pluto TV data.
+- Add debug code to allow for the discovery of new Pluto TV types, genres and ratings.
+- Correct the Samsung Live TV mode option URLs.
+- Update version number.
+
+NOTE: The current Pluto TV genre mappings are still being checked and refined.  It was decided to publish this update as there are a number of fixes and improvements that we wanted to get out ASAP.  The genre tables may get further updates in the near future.  If you find any issues in the mapping data please report the appropriate corrections for consideration.
+
 **V3.0.1 - 28.10.2025**
 **Small correction and improvements**
 - Correct the Samsung URL.
