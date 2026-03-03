@@ -12,7 +12,6 @@
 		<item level="0" text="Add Samsung channels to bouquets" description="Select 'Yes' to add the Samsung VOD channels to the bouquet.">config.plugins.PlutoTV.addSamsung</item>
 		<item level="0" text="Add Xiaomi channels to bouquets" description="Select 'Yes' to add the Xiaomi VOD channels to the bouquet.">config.plugins.PlutoTV.addXiaomi</item>
 		<item level="0" text="Omit promotions from EPG" description="Select 'Yes' to omit/strip station and show promotional content from the EPG. (New events won't be added. Existing events will be left until they expire.)">config.plugins.PlutoTV.omitPromotions</item>
-		<item level="0" text="Live TV mode" description="Select the operating mode.">config.plugins.PlutoTV.liveMode</item>
 		<item level="0" text="Live TV channel numbering" description="Select the service numbering scheme.">config.plugins.PlutoTV.channelNumbering</item>
 		<item level="0" text="Add #DESCRIPTION to bouquets" description="Select 'Yes' to add #DESCRIPTION lines to all bouquets created by Pluto TV.">config.plugins.PlutoTV.addDescriptions</item>
 		<item level="0" text="Force picon download" description="Select 'Yes' to force picons to be downloaded from Pluto TV even if they are already locally available.">config.plugins.PlutoTV.forcePiconDownload</item>

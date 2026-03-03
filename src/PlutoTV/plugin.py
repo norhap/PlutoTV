@@ -263,11 +263,6 @@ config.plugins.PlutoTV.channelNumbering = ConfigSelection(default="original", ch
 	("original", _("Original")),
 	("plugin", _("Plugin generated"))
 ])
-config.plugins.PlutoTV.liveMode = ConfigSelection(default="samsung", choices=[
-	("original", _("Original")),
-	("roku", "Roku TV"),
-	("samsung", "Samsung TV")
-])
 domData = fileReadXML(resolveFilename(SCOPE_PLUGIN_ABSOLUTE, "plutotv.xml"), default=None, source=MODULE_NAME)
 choices = []
 if domData is not None:
@@ -1759,14 +1754,12 @@ class PlutoUpdater:
 		addXiaomi = config.plugins.PlutoTV.addXiaomi.value
 		if not addXiaomi:
 			print("[PlutoTV] Xiaomi TV categories will not being added.")
-		self.liveMode = config.plugins.PlutoTV.liveMode.value
 		self.channelNumbering = config.plugins.PlutoTV.channelNumbering.value
 		self.piconMode = config.plugins.PlutoTV.piconMode.value
 		# print(f"[PlutoTV] DEBUG: bouquetRegionList={bouquetRegionList}.")
 		# print(f"[PlutoTV] DEBUG: serviceTypes={serviceTypes}.")
 		# print(f"[PlutoTV] DEBUG: addSamsung={addSamsung}.")
 		# print(f"[PlutoTV] DEBUG: addXiaomi={addXiaomi}.")
-		# print(f"[PlutoTV] DEBUG: self.liveMode='{self.liveMode}'.")
 		# print(f"[PlutoTV] DEBUG: self.channelNumbering='{self.channelNumbering}'.")
 		# print(f"[PlutoTV] DEBUG: self.piconMode='{self.piconMode}'.")
 		try:
@@ -1837,36 +1830,8 @@ class PlutoUpdater:
 						print("[PlutoTV] Categories without URLs are not being added.")
 						continue
 					identifier = channel["_id"]
-					match self.liveMode:
-						case "original":
-							url = [updateQuery(x["url"], {
-								"deviceType": "web",
-								"deviceMake": "Chrome",
-								"deviceModel": "web",
-								"appName": "web",
-								"deviceId": "bc83a564-4b91-11ef-8a44-83c5e90e038f"
-							}) for x in urls if x["type"].lower() == "hls"][0]
-						case "roku":
-							url = "&".join((
-								f"https://stitcher-ipv4.pluto.tv/v1/stitch/embed/hls/channel/{identifier}/master.m3u8?deviceId=PSID",
-								"deviceModel=web",
-								"deviceVersion=1.0",
-								"appVersion=1.0",
-								"deviceType=rokuChannel",
-								"deviceMake=rokuChannel",
-								"deviceDNT=1"
-							))
-						case "samsung":
-							url = "&".join((
-								f"https://stitcher-ipv4.pluto.tv/v1/stitch/embed/hls/channel/{identifier}/master.m3u8?deviceType=samsung-tvplus",
-								"deviceMake=samsung",
-								"deviceModel=samsung",
-								"deviceVersion=DNT",
-								"appVersion=DNT",
-								"deviceDNT=0",
-								"deviceId=1",
-								"sid=01"
-							))
+					ipAddress = PLUTO_DATA[region][PLUTO_IP]
+					url = f"pluto://{identifier}?ip={ipAddress}" if ipAddress else f"pluto://{identifier}"
 					if category not in channelList.keys():
 						categories.append(category)
 						channelList[category] = []
@@ -2692,12 +2657,41 @@ def autoStart(reason, session):
 		plutoScheduler.stop()
 
 
+PLUTO_SCHEMA = "pluto%3a//"
+PLUTO_SCHEMA_UPPER = "pluto%3A//"
+
+
+def playService(service, **kwargs):
+	errormsg = None
+	sRef = service.toString() if service else ""
+	if PLUTO_SCHEMA in sRef or PLUTO_SCHEMA_UPPER in sRef:
+		parts = sRef.split(":")
+		if len(parts) > 9:
+			path = parts[10]
+			if path.startswith(PLUTO_SCHEMA) or path.startswith(PLUTO_SCHEMA_UPPER):
+				path = path[len(PLUTO_SCHEMA):]
+				path = path.replace("%3a", ":").replace("%3A", ":")
+				channelId = path.split("?")[0]
+				ipAddress = ""
+				if "?ip=" in path:
+					ipAddress = path.split("?ip=")[1].split("&")[0]
+				streamUrl = plutoAuth.buildStreamURL(channelId, ipAddress)
+				if streamUrl:
+					print(f"[PlutoTV] playService: {channelId} -> resolved")
+					return (streamUrl, errormsg)
+				else:
+					errormsg = "Failed to get Pluto TV stream token"
+					print(f"[PlutoTV] playService: {channelId} -> failed")
+	return (None, errormsg)
+
+
 def Plugins(**kwargs):
 	name = _("Pluto TV")
 	description = _("Play Pluto TV videos and create Pluto TV bouquets.  (Version: %s)") % __version__
 	plugin = [
 		PluginDescriptor(name=_("Pluto TV Scheduler"), where=[PluginDescriptor.WHERE_SESSIONSTART], fnc=autoStart),
 		PluginDescriptor(name=name, description=description, where=[PluginDescriptor.WHERE_PLUGINMENU], icon="plutotv.png", fnc=runPlutoTV),
+		PluginDescriptor(name="PlutoTV", description="Resolve pluto:// URIs", where=PluginDescriptor.WHERE_PLAYSERVICE, needsRestart=False, fnc=playService),
 	]
 	if config.plugins.PlutoTV.addToMainMenu.value:
 		# plugin.append(PluginDescriptor(name=name, description=description, where=[PluginDescriptor.WHERE_MAINMENU], icon="plutotv.png", fnc=runPlutoTV))
