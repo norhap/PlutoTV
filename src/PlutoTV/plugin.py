@@ -108,6 +108,9 @@ from Tools.Notifications import AddNotificationWithCallback
 
 from . import _, __version__
 
+from logging import getLogger
+getLogger("urllib3").setLevel(40)  # ERROR only, suppress debug/info connection logs.
+
 MODULE_NAME = __name__.split(".")[-1]
 
 PLUTO_USER_AGENT = {"User-agent": "Mozilla/5.0 (Windows NT 6.2; rv:24.0) Gecko/20100101 Firefox/24.0"}
@@ -2073,11 +2076,13 @@ class PlutoUpdater:
 							subGenre = episode.get("subGenre", "")
 							extended = f"{extended}\n\n{_("Rating")}: {rating}{descriptors}\n{_("Genre")}: {genre} - {subGenre}"
 							eventType = self.PLUTO_SUB_GENRES.get(subGenre, 0x00)
-							localRegion = international.getCountryAlpha3()
-							plutoRegion = international.getCountryAlpha3(region)
+							localRegion = international.getCountryAlpha3() or ""
+							plutoRegion = international.getCountryAlpha3(region) or ""
 							ratingCode = decodeRating(region, rating)
-							ratingList = [(plutoRegion, ratingCode)]
-							if localRegion != plutoRegion:
+							ratingList = []
+							if plutoRegion and len(plutoRegion) == 3:
+								ratingList.append((plutoRegion, ratingCode))
+							if localRegion and len(localRegion) == 3 and localRegion != plutoRegion:
 								ratingList.insert(0, (localRegion, ratingCode))
 							# StartTime [long], Duration [int], EventTitle, ShortDescription, ExtendedDescription, EventType [byte], EventID [int], ParentalRatings [list of tuples (Country [3 letter string], ParentalRating [byte])]
 							guideList[identifier].append((start, duration, title, short, extended, eventType, 0, ratingList))
@@ -2192,8 +2197,6 @@ class PlutoUpdater:
 			debugLog.append(f"Sub genres={subGenres}")
 		if ratings:
 			debugLog.append(f"Ratings={ratings}")
-		if ratingDescriptors:
-			debugLog.append(f"Rating descriptors={ratingDescriptors}")
 		if debugLog:
 			debugLog.insert(0, "Pluto TV Debug Log - Missing Definitions")
 			fileWriteLines("/tmp/plutotv_missing.txt", debugLog, source=MODULE_NAME)
