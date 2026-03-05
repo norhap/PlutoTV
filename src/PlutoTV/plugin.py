@@ -2547,7 +2547,7 @@ class PlutoUpdate(Screen, PlutoUpdater):
 	</screen>"""
 
 	def __init__(self, session, bouquetRegionList=None):
-		Screen.__init__(self, session, enableHelp=True)
+		Screen.__init__(self, session)
 		PlutoUpdater.__init__(self, True)  # Verbose output is True.
 		self.bouquetRegionList = bouquetRegionList
 		self["action"] = Label(_("Pluto TV Update"))
