@@ -5,7 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2026-01-25 13:18+0100\n"
 "PO-Revision-Date: 2024-08-30 12:34+0200\n"
 "Last-Translator: \n"
-"Language-Team: morser\n"
+"Language-Team: norhap\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,484 +18,450 @@ msgstr ""
 #, python-format
 msgid "%d Hour"
 msgid_plural "%d Hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Hora"
+msgstr[1] "%d Horas"
 
 #, python-format
 msgid "%s favorite added."
-msgstr ""
+msgstr "%s favorito añadido."
 
 #, python-format
 msgid "%s favorite deleted."
-msgstr ""
+msgstr "%s favorito eliminado."
 
 msgid "* Automatic *"
-msgstr ""
+msgstr "* Automático*"
 
 msgid "* Unknown *"
-msgstr ""
+msgstr "* Desconocido *"
 
 msgid "** My Favorites **"
-msgstr ""
+msgstr "** Mis Favoritos **"
 
-#, fuzzy
 msgid "** No episodes available **"
-msgstr "Temporadas disponibles"
+msgstr "No hay episodios disponibles"
 
-#, fuzzy
 msgid "** No favorites available **"
-msgstr "Temporadas disponibles"
+msgstr "** No hay favoritos disponibles **"
 
-#, fuzzy
 msgid "** No seasons available **"
-msgstr "Temporadas disponibles"
+msgstr "** No hay temporadas disponibles **"
 
 #, python-format
 msgid "** Unexpected menu type '%s'!"
-msgstr ""
+msgstr "** Tipo de menú inesperado '%s'!"
 
-#, fuzzy
 msgid "--- Pluto TV Bouquets ---"
-msgstr "Actualizar Lista de canales"
+msgstr "--- Pluto TV Bouquets ---"
 
 msgid "Add #DESCRIPTION to bouquets"
-msgstr ""
+msgstr "Añade #DESCRIPCIÓN a los bouquets"
 
 msgid "Add Bouquet"
-msgstr ""
+msgstr "Añadir Bouquet"
 
 msgid "Add Favorite"
-msgstr ""
+msgstr "Añadir Favorito"
 
 msgid "Add Samsung channels to bouquets"
-msgstr ""
+msgstr "Añadir canales Samsgung a bouquets"
 
 msgid "Add Xiaomi channels to bouquets"
-msgstr ""
+msgstr "Añadir canales Xiaomi a bouquets"
 
 msgid "Add to Extensions Menu"
-msgstr ""
+msgstr "Añadir al Menú de Extensiones"
 
 msgid "Add to Main Menu"
-msgstr ""
+msgstr "Añadir al Menú Principal"
 
 msgid "Add update to Extensions Menu"
-msgstr ""
+msgstr "Añadir actualización al Menú Extensiones"
 
-#, fuzzy
 msgid "Add/Delete a Pluto TV bouquet"
 msgstr "Actualizar Lista de canales"
 
 msgid "Adult themes"
-msgstr ""
+msgstr "Temas para adultos"
 
 msgid "Back"
-msgstr ""
+msgstr "Atrás"
 
-#, python-format
 msgid "Bouquet %s region"
-msgstr ""
+msgstr "Bouquet %s region"
 
-#, python-format
 msgid "Bouquet %s service type"
-msgstr ""
+msgstr "Bouquet %s tipo de servicio"
 
-#, python-format
 msgid "Building bouquet '%s' for '%s'."
-msgstr ""
+msgstr "Construyendo bouquet '%s' para '%s'."
 
 msgid "Building category and channel lists."
-msgstr ""
+msgstr "Construyendo categoría y lista de canales."
 
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
-#, fuzzy
 msgid "Cancel Pluto TV update"
-msgstr "Actualizar Lista de canales"
+msgstr "Cancelar actualizar Pluto TV"
 
 msgid "Cast"
-msgstr ""
+msgstr "Elenco"
 
 msgid "Close"
-msgstr ""
+msgstr "Cerrado"
 
-#, fuzzy
 msgid "Close Pluto TV"
 msgstr "PlutoTV"
 
 msgid "Close PlutoTV and close all menus"
-msgstr ""
+msgstr "Cierra PlutoTV y cierra todos los menús"
 
 msgid "Coarse language"
-msgstr ""
+msgstr "Lenguaje grosero"
 
 msgid "Confirm close"
-msgstr ""
+msgstr "Confirmar cerrar"
 
-#, fuzzy
 msgid "Delete Bouquet"
-msgstr "Actualizar Lista de canales"
+msgstr "Eliminar Bouquet"
 
 msgid "Delete Favorite"
-msgstr ""
+msgstr "Eliminar Favorito"
 
 msgid "Director"
 msgid_plural "Directors"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Director"
+msgstr[1] "Directores"
 
-#, fuzzy
 msgid "Do you want to close Pluto TV?"
-msgstr "¿Deseas salir realmente de PlutoTV?"
+msgstr "¿Quieres cerrar Pluto TV?"
 
-#, fuzzy
 msgid "Do you want to resume playback?"
-msgstr "¿Deseas reanudar este video donde se dejo?"
+msgstr "¿Quieres reanudar la reproducción?"
 
-#, python-format
 msgid "Downloading '%s' picon."
-msgstr ""
+msgstr "Descargando el picon '%s'."
 
 msgid "Drug use"
-msgstr ""
+msgstr "Uso de drogas"
 
 msgid "Duration"
-msgstr ""
+msgstr "Duración"
 
 msgid "Educational"
-msgstr ""
+msgstr "Educacional"
 
 msgid "Educational/Informational"
-msgstr ""
+msgstr "Educacional/Informativo"
 
 msgid "Enter the directory where the Pluto TV picons will be saved. This should be the same location where other picons are located."
-msgstr ""
+msgstr "Ingresa al directorio donde se guardarán los picons de Pluto TV. Esta debería ser la misma ubicación donde se encuentran otros picons."
 
 msgid "Episode"
 msgstr "Episodio"
 
 msgid "Error during update, update aborted!"
-msgstr ""
+msgstr "Error durante la actualización, ¡actualización cancelada!"
 
-#, python-format
 msgid "Error: Generated channel number too big!  (%s)"
-msgstr ""
+msgstr "Error: ¡El número de canal generado es demasiado grande! (%s)"
 
-#, fuzzy
 msgid "Error: No VOD categories available!"
-msgstr "Temporadas disponibles"
+msgstr "Error: ¡No hay categorías VOD disponibles!"
 
 msgid "Fantasy violence"
-msgstr ""
+msgstr "Violencia de fantasía"
 
-#, python-format
 msgid "Fetching %s carousel data."
-msgstr ""
+msgstr "Obteniendo %s datos del carrusel."
 
 msgid "Fetching EPG data."
-msgstr ""
+msgstr "Obteniendo datos de EPG."
 
 msgid "Force picon download"
-msgstr ""
+msgstr "Descargar picon forzado"
 
 msgid "Genre"
-msgstr ""
+msgstr "Género"
 
 msgid "Go back to the previous menu"
-msgstr ""
+msgstr "Volver al menú anterior"
 
 msgid "Horror/supernatural themes"
-msgstr ""
+msgstr "Temas de terror/sobrenaturales"
 
 msgid "IMDb"
-msgstr ""
+msgstr "IMDb"
 
 msgid "Informational"
-msgstr ""
+msgstr "Informativo"
 
 msgid "Language"
-msgstr ""
+msgstr "Languaje"
 
 msgid "Live TV channel numbering"
-msgstr ""
+msgstr "Numeración de canales de TV en directo"
 
 msgid "Live TV mode"
-msgstr ""
+msgstr "Modo TV en directo"
 
-#, fuzzy
 msgid "Loading Pluto TV categories, please wait..."
-msgstr "Cargando datos... Por favor espere"
+msgstr "Cargando datos... Por favor espere..."
 
 msgid "MENU"
-msgstr ""
+msgstr "MENU"
 
 msgid "Move down a line"
-msgstr ""
+msgstr "Bajar una línea"
 
 msgid "Move down a screen"
-msgstr ""
+msgstr "Bajar una pantalla"
 
 msgid "Move to first line / screen"
-msgstr ""
+msgstr "Pasar a la primera línea/pantalla"
 
 msgid "Move to last line / screen"
-msgstr ""
+msgstr "Ir a la última línea/pantalla"
 
 msgid "Move up a line"
-msgstr ""
+msgstr "Subir una línea"
 
 msgid "Move up a screen"
-msgstr ""
+msgstr "Subir una pantalla"
 
 msgid "NOTE: Pluto TV picons should be deleted before the next bouquet update."
-msgstr ""
+msgstr "NOTA: Los picons de Pluto TV deben eliminarse antes de la próxima actualización del bouquet."
 
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 msgid "None"
-msgstr ""
+msgstr "Ninguno"
 
 msgid "Nudity"
-msgstr ""
+msgstr "Desnudez"
 
 msgid "Omit promotions from EPG"
-msgstr ""
+msgstr "Omitir promociones de EPG"
 
 msgid "Open the Pluto TV settings screen"
-msgstr ""
+msgstr "Abra la pantalla de configuración de Pluto TV"
 
 msgid "Original"
-msgstr ""
+msgstr "Original"
 
 msgid "Original release"
-msgstr ""
+msgstr "Lanzamiento original"
 
 msgid "Picon directory"
-msgstr ""
+msgstr "Directorio picon"
 
 msgid "Picon mode"
-msgstr ""
+msgstr "Modo picon"
 
-#, python-format
 msgid "Play Pluto TV videos and create Pluto TV bouquets.  (Version: %s)"
-msgstr ""
+msgstr "Reproduce vídeos de Pluto TV y crea bouquets de Pluto TV. (Versión: %s)"
 
 msgid "Please wait..."
-msgstr ""
+msgstr "Espere por favor..."
 
 msgid "Plugin generated"
-msgstr ""
+msgstr "Plugin generado"
 
-#, fuzzy
 msgid "Pluto TV"
 msgstr "PlutoTV"
 
-#, fuzzy
 msgid "Pluto TV Actions"
-msgstr "Actualizar Lista de canales"
+msgstr "Acciones Pluto TV"
 
 msgid "Pluto TV Movie Player"
-msgstr ""
+msgstr "Reproductor de Películas Pluto TV"
 
-#, fuzzy
 msgid "Pluto TV Scheduler"
-msgstr "Actualizar Lista de canales"
+msgstr "Programador de Pluto TV"
 
-#, fuzzy
 msgid "Pluto TV Settings"
-msgstr "Actualizar Lista de canales"
+msgstr "Ajustes Pluto TV"
 
-#, fuzzy
 msgid "Pluto TV Update"
-msgstr "PlutoTV"
+msgstr "Actualización Pluto TV"
 
-#, python-format
 msgid "Pluto TV Update - %s"
-msgstr ""
+msgstr "Actualización Pluto TV - %s"
 
 msgid "Pluto TV Update Action"
-msgstr ""
+msgstr "Accciones Actualización Pluto TV"
 
-#, fuzzy
 msgid "Pluto TV bouquets last updated"
-msgstr "Actualizar Lista de canales"
+msgstr "Bouquets Pluto TV actualizados por última vez"
 
-#, python-format
 msgid "Pluto TV may not be available in '%s'."
-msgstr ""
+msgstr "Es posible que Pluto TV no esté disponible en '%s'."
 
 msgid "Pluto TV may not be available in your location."
-msgstr ""
+msgstr "Es posible que Pluto TV no esté disponible en su ubicación."
 
-#, python-format
 msgid "Processing '%s' guides."
-msgstr ""
+msgstr "Procesando guías '%s'."
 
 msgid "Producer"
 msgid_plural "Producers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Productor"
+msgstr[1] "Productores"
 
 msgid "Rating"
-msgstr ""
+msgstr "Clasificación"
 
 msgid "Reference"
-msgstr ""
+msgstr "Referencia"
 
-#, fuzzy
 msgid "Remove a Pluto TV bouquet"
-msgstr "Actualizar Lista de canales"
+msgstr "Eliminar bouquet Pluto TV"
 
-#, python-format
 msgid "Resume position at %s"
 msgstr "Posición de reanudación en %s"
 
 msgid "Return to the top menu"
-msgstr ""
+msgstr "Volver al menú superior"
 
 msgid "SNP"
-msgstr ""
+msgstr "SNP"
 
 msgid "Season"
 msgid_plural "Seasons"
 msgstr[0] "Temporada"
 msgstr[1] "Temporadas"
 
-#, fuzzy
 msgid "Season available"
 msgid_plural "Seasons available"
-msgstr[0] "Temporadas disponibles"
+msgstr[0] "Temporada disponible"
 msgstr[1] "Temporadas disponibles"
 
 msgid "Select 'Yes' to add #DESCRIPTION lines to all bouquets created by Pluto TV."
-msgstr ""
+msgstr "Seleccione 'Sí' para añadir líneas #DESCRIPTION a todos los bouquets creados por Pluto TV."
 
 msgid "Select 'Yes' to add Pluto TV to the Extensions Menu."
-msgstr ""
+msgstr "Seleccione 'Sí' para añadir Pluto TV al Menú de Extensiones."
 
 msgid "Select 'Yes' to add Pluto TV to the Main Menu."
-msgstr ""
+msgstr "Seleccione 'Sí' para añadir Pluto TV al Menú Principal."
 
 msgid "Select 'Yes' to add a blank line between the parts (cast, writers, directors, producers, release date) of the description."
-msgstr ""
+msgstr "Seleccione 'Sí' para añadir una línea en blanco entre las partes (elenco, escritores, directores, productores, fecha de lanzamiento) de la descripción."
 
 msgid "Select 'Yes' to add a blank line between the parts of the episode number, name and description."
-msgstr ""
+msgstr "Seleccione 'Sí' para añadir una línea en blanco entre las partes del número, nombre y descripción del episodio."
 
 msgid "Select 'Yes' to add the Pluto TV update function to the Extensions Menu."
-msgstr ""
+msgstr "Seleccione 'Sí' para añadir la función de actualización de Pluto TV al Menú Extensiones."
 
 msgid "Select 'Yes' to add the Samsung VOD channels to the bouquet."
-msgstr ""
+msgstr "Seleccione 'Sí' para añadir los canales Samsung VOD al bouquet."
 
 msgid "Select 'Yes' to add the Xiaomi VOD channels to the bouquet."
-msgstr ""
+msgstr "Seleccione 'Sí' para añadir los canales Xiaomi VOD al bouquet."
 
 msgid "Select 'Yes' to display a pop up screen to confirm the close request."
-msgstr ""
+msgstr "Seleccione 'Sí' para mostrar una pantalla emergente para confirmar la solicitud de cierre."
 
 msgid "Select 'Yes' to display the initial data loading information."
-msgstr ""
+msgstr "Seleccione 'Sí' para mostrar la información de carga de datos inicial."
 
 msgid "Select 'Yes' to force picons to be downloaded from Pluto TV even if they are already locally available."
-msgstr ""
+msgstr "Seleccione 'Sí' para forzar la descarga de picons desde Pluto TV incluso si ya están disponibles localmente."
 
 msgid "Select 'Yes' to omit/strip station and show promotional content from the EPG. (New events won't be added. Existing events will be left until they expire.)"
-msgstr ""
+msgstr "Seleccione 'Sí' para omitir/eliminar la estación y mostrar contenido promocional de la EPG. (No se añadirán nuevos eventos. Los eventos existentes se dejarán hasta que caduquen)."
 
 msgid "Select a VOD region"
-msgstr ""
+msgstr "Seleccione una región VOD"
 
 msgid "Select the VOD region to be viewed:"
-msgstr ""
+msgstr "Seleccione la región VOD que desea ver:"
 
 msgid "Select the current menu item"
-msgstr ""
+msgstr "Seleccione el elemento del menú actual"
 
 msgid "Select the delay between automatic updates of the Pluto TV carousel."
-msgstr ""
+msgstr "Seleccione el retraso entre las actualizaciones automáticas del carrusel de Pluto TV."
 
 msgid "Select the operating mode."
-msgstr ""
+msgstr "Seleccione el modo de funcionamiento."
 
 msgid "Select the operating picon mode."
-msgstr ""
+msgstr "Seleccione el modo de funcionamiento del picon."
 
 msgid "Select the region for which a bouquet will be created."
-msgstr ""
+msgstr "Seleccione la región para la cual se creará un bouquet."
 
 msgid "Select the region from which the Pluto TV services will be loaded."
-msgstr ""
+msgstr "Seleccione la región desde la cual se cargarán los servicios de Pluto TV."
 
 msgid "Select the service numbering scheme."
-msgstr ""
+msgstr "Seleccione el esquema de numeración del canal."
 
 msgid "Select the service type to be used for the region bouquet."
-msgstr ""
+msgstr "Seleccione el tipo de servicio que se utilizará para el ramo de región."
 
 msgid "Separate episode details"
-msgstr ""
+msgstr "Detalles del episodio separado"
 
 msgid "Separate other details"
-msgstr ""
+msgstr "Separar otros detalles"
 
 msgid "Sex scenes"
-msgstr ""
+msgstr "Escenas de sexo"
 
 msgid "Sexual content"
-msgstr ""
+msgstr "Contenido sexual"
 
-#, fuzzy
 msgid "Start Pluto TV bouquet, picons & EPG update."
-msgstr "Descargar lista de canales de PlutoTV, picons y EPG"
+msgstr "Inicie la actualización de Pluto TV bouquet, picons y EPG."
 
 msgid "Start PlutoTV in silent mode"
-msgstr ""
+msgstr "Inicie PlutoTV en modo silencioso"
 
-#, fuzzy
 msgid "Stop playing this movie?"
-msgstr "¿Para el video y salir?"
+msgstr "¿Dejar de reproducir esta película?"
 
 msgid "Suggestive dialog"
-msgstr ""
+msgstr "Diálogo sugerente"
 
 msgid "TEXT"
-msgstr ""
+msgstr "TEXT"
 
 msgid "TMDb"
-msgstr ""
+msgstr "TMDb"
 
 msgid "Time between automatic updates"
-msgstr ""
+msgstr "Tiempo entre actualizaciones automáticas"
 
-#, fuzzy
 msgid "Update Bouquets"
-msgstr "Actualizar Lista de canales"
+msgstr "Actualización de Bouquets"
 
 msgid "Update aborted!"
-msgstr ""
+msgstr "¡Actualización cancelada!"
 
 msgid "Update already in progress!"
-msgstr ""
+msgstr "¡Actualización ya en progreso!"
 
 msgid "Update finished."
-msgstr ""
+msgstr "Actualización finalizada."
 
 msgid "Updates disabled"
-msgstr ""
+msgstr "Actualizaciones deshabilitadas"
 
 msgid "VOD Categories Menu"
-msgstr ""
+msgstr "Menú de categorías VOD"
 
 msgid "Video region"
-msgstr ""
+msgstr "Región de vídeo"
 
 msgid "Violence"
-msgstr ""
+msgstr "Violencia"
 
 msgid "Writer"
 msgid_plural "Writers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Escritor"
+msgstr[1] "Escritores"
