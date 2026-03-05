@@ -86,7 +86,6 @@ from skin import parseColor
 from Components.ActionMap import HelpableActionMap
 from Components.config import ConfigDirectory, ConfigNumber, ConfigSelection, ConfigSubList, ConfigSubsection, ConfigYesNo, config, getConfigListEntry  # noqa: F401
 from Components.Harddisk import harddiskmanager
-from Components.International import international
 from Components.Label import Label
 from Components.Pixmap import Pixmap
 from Components.ProgressBar import ProgressBar
@@ -108,7 +107,7 @@ from Screens.InfoBar import MoviePlayer
 from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
 from Screens.Setup import Setup
-from Tools.Directories import SCOPE_CONFIG, SCOPE_GUISKIN, SCOPE_PLUGIN_ABSOLUTE, fileReadLine, fileReadLines, fileReadXML, fileWriteLine, fileWriteLines, resolveFilename
+from Tools.Directories import SCOPE_CONFIG, SCOPE_GUISKIN, SCOPE_PLUGINS, fileReadLine, fileReadLines, fileReadXML, fileWriteLine, fileWriteLines, resolveFilename
 from Tools.LoadPixmap import LoadPixmap
 from Tools.Notifications import AddNotificationWithCallback
 
@@ -269,12 +268,12 @@ config.plugins.PlutoTV.channelNumbering = ConfigSelection(default="original", ch
 	("original", _("Original")),
 	("plugin", _("Plugin generated"))
 ])
-domData = fileReadXML(resolveFilename(SCOPE_PLUGIN_ABSOLUTE, "plutotv.xml"), default=None, source=MODULE_NAME)
+domData = fileReadXML(resolveFilename(SCOPE_PLUGINS, "Extensions/PlutoTV/plutotv.xml"), default=None, source=MODULE_NAME)
 choices = []
 if domData is not None:
 	for region in domData.findall("region"):
 		country = region.get("country")
-		name = international.getCountryTranslated(country)
+		name = country
 		ip = region.get("ip")
 		tids = region.get("tids")
 		if country and name and ip and tids:
@@ -461,7 +460,7 @@ class PlutoTV(Screen):
 		def keyRedHelp():
 			return _("Go back to the previous menu") if self.history else _("Close Pluto TV")
 
-		Screen.__init__(self, session, enableHelp=True)
+		Screen.__init__(self, session)
 		self.baseTitle = _("Pluto TV")
 		self.setTitle(self.baseTitle)
 		self.loadingMsg = _("Loading Pluto TV categories, please wait...")
@@ -719,7 +718,7 @@ class PlutoTV(Screen):
 		if icon:
 			iconPath = resolveFilename(SCOPE_GUISKIN, f"images/{icon}")
 			if not isfile(iconPath):
-				iconPath = resolveFilename(SCOPE_PLUGIN_ABSOLUTE, f"images/{icon}")
+				iconPath = resolveFilename(SCOPE_PLUGINS, f"Extensions/PlutoTV/images/{icon}")
 			icon = LoadPixmap(iconPath) if isfile(iconPath) else None
 		else:
 			iconPath = None
@@ -1908,7 +1907,7 @@ class PlutoUpdater:
 							# print(f"[PlutoTV] DEBUG: piconURL={piconURL}, piconBaseName={piconBaseName}, piconPath={piconPath}.")
 							if "missing.png" in piconURL or "MISSING" in piconURL:
 								# print("[PlutoTV] DEBUG: Don't try fetching the 'missing.png' or 'MISSING' picon!")
-								copy2(resolveFilename(SCOPE_PLUGIN_ABSOLUTE, "images/pluto_picon.png"), piconPath)
+								copy2(resolveFilename(SCOPE_PLUGINS, "Extensions/PlutoTV/images/pluto_picon.png"), piconPath)
 							elif not isfile(piconPath) or config.plugins.PlutoTV.forcePiconDownload.value:
 								# print(f"[PlutoTV] DEBUG: Fetching '{piconURL}' as picon '{piconPath}'.")
 								try:
@@ -1918,7 +1917,7 @@ class PlutoUpdater:
 										fd.write(response.content)
 								except Exception as err:
 									print(f"[PlutoTV] Error: Unable to download picon '{piconURL}' as '{piconPath}'!  ({err})")
-									copy2(resolveFilename(SCOPE_PLUGIN_ABSOLUTE, "images/pluto_picon.png"), piconPath)
+									copy2(resolveFilename(SCOPE_PLUGINS, "Extensions/PlutoTV/images/pluto_picon.png"), piconPath)
 							# else:
 							# 	print(f"[PlutoTV] DEBUG: Not fetching '{piconURL}' as picon '{piconPath}' already exists.")
 					progress = round(progress)  # Eliminate any rounding errors and return progress back to an integer.
@@ -2047,8 +2046,8 @@ class PlutoUpdater:
 							subGenre = episode.get("subGenre", "")
 							extended = f"{extended}\n\n{_("Rating")}: {rating}{descriptors}\n{_("Genre")}: {genre} - {subGenre}"
 							eventType = self.PLUTO_SUB_GENRES.get(subGenre, 0x00)
-							localRegion = international.getCountryAlpha3() or ""
-							plutoRegion = international.getCountryAlpha3(region) or ""
+							localRegion = ""
+							plutoRegion = ""
 							ratingCode = decodeRating(region, rating)
 							ratingList = []
 							if plutoRegion and len(plutoRegion) == 3:
@@ -2697,7 +2696,6 @@ def Plugins(**kwargs):
 	plugin = [
 		PluginDescriptor(name=_("Pluto TV Scheduler"), where=[PluginDescriptor.WHERE_SESSIONSTART], fnc=autoStart),
 		PluginDescriptor(name=name, description=description, where=[PluginDescriptor.WHERE_PLUGINMENU], icon="plutotv.png", fnc=runPlutoTV),
-		PluginDescriptor(name="PlutoTV", description="Resolve pluto:// URIs", where=PluginDescriptor.WHERE_PLAYSERVICE, needsRestart=False, fnc=playService),
 	]
 	if config.plugins.PlutoTV.addToMainMenu.value:
 		# plugin.append(PluginDescriptor(name=name, description=description, where=[PluginDescriptor.WHERE_MAINMENU], icon="plutotv.png", fnc=runPlutoTV))
