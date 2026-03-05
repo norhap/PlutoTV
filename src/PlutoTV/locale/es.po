@@ -55,7 +55,7 @@ msgid "--- Pluto TV Bouquets ---"
 msgstr "--- Pluto TV Bouquets ---"
 
 msgid "Add #DESCRIPTION to bouquets"
-msgstr "Añade #DESCRIPCIÓN a los bouquets"
+msgstr "Añade #DESCRIPTION a los bouquets"
 
 msgid "Add Bouquet"
 msgstr "Añadir Bouquet"
