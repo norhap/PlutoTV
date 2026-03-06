@@ -30,7 +30,7 @@ msgid "%s favorite deleted."
 msgstr "%s favorito eliminado."
 
 msgid "* Automatic *"
-msgstr "* Automático*"
+msgstr "* Automático *"
 
 msgid "* Unknown *"
 msgstr "* Desconocido *"
