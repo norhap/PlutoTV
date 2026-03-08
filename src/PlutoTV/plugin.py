@@ -2672,7 +2672,7 @@ def playService(service, **kwargs):
 	sRef = service.toString() if service else ""
 	if PLUTO_SCHEMA in sRef or PLUTO_SCHEMA_UPPER in sRef:
 		parts = sRef.split(":")
-		if len(parts) > 9:
+		if len(parts) > 10:
 			path = parts[10]
 			if path.startswith(PLUTO_SCHEMA) or path.startswith(PLUTO_SCHEMA_UPPER):
 				path = path[len(PLUTO_SCHEMA):]
