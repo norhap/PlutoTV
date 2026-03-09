@@ -2696,6 +2696,7 @@ def Plugins(**kwargs):
 	plugin = [
 		PluginDescriptor(name=_("Pluto TV Scheduler"), where=[PluginDescriptor.WHERE_SESSIONSTART], fnc=autoStart),
 		PluginDescriptor(name=name, description=description, where=[PluginDescriptor.WHERE_PLUGINMENU], icon="plutotv.png", fnc=runPlutoTV),
+		PluginDescriptor(name="PlutoTV", description="Resolve pluto:// URIs", where=PluginDescriptor.WHERE_PLAYSERVICE, needsRestart=False, fnc=playService),
 	]
 	if config.plugins.PlutoTV.addToMainMenu.value:
 		# plugin.append(PluginDescriptor(name=name, description=description, where=[PluginDescriptor.WHERE_MAINMENU], icon="plutotv.png", fnc=runPlutoTV))
